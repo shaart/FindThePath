@@ -21,9 +21,6 @@
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundBrush}"/>
         </Style>
-        <Style TargetType="DataGridCell">
-            <Setter Property="Background" Value="{StaticResource ResourceKey=CellBackgroundBrush}"/>
-        </Style>
     </Window.Resources>
     <Grid x:Name="windowGrid">
         <Grid.RowDefinitions>
@@ -32,14 +29,25 @@
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid x:Name="panel" Height="40" Background="#FF536381" VerticalAlignment="Stretch">
-                <Button HorizontalAlignment="Center" Content="Calculate" 
-                        Height="{Binding ActualHeight, ElementName=panel, Mode=OneWay}"
-                        Width="{Binding ActualWidth, ElementName=panel, Mode=OneWay}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Clear" Click="Clear_Click"
+                        Height="{Binding ActualHeight, ElementName=panel, Mode=OneWay}"/>
+                <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Calculate" Click="Calculate_Click"
+                        Height="{Binding ActualHeight, ElementName=panel, Mode=OneWay}"/>
             </Grid>
         </Grid>
         <ScrollViewer Grid.Column="0" Grid.Row="1" 
                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <DataGrid x:Name="_grid" AutoGenerateColumns="True" ItemsSource="{Binding}" HeadersVisibility="None" CellEditEnding="_grid_CellEditEnding"/>
+            <DataGrid x:Name="_grid" AutoGenerateColumns="True" ItemsSource="{Binding}" HeadersVisibility="None" CellEditEnding="_grid_CellEditEnding">
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Background" Value="{StaticResource ResourceKey=CellBackgroundBrush}"/>
+                    </Style>
+                </DataGrid.CellStyle>
+            </DataGrid>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -1,4 +1,6 @@
 ﻿using System;
+﻿// Нахождение пути на карте
+// http://www.firststeps.ru/theory/karta.html
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +43,12 @@ namespace FindThePath
         private static DataTable _data = new DataTable();
         private Point2D A, B;
 
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            InitNewPath(ref _data);
+        }
+
+
         private void _grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             string newText = (e.EditingElement as TextBox).Text;
@@ -78,11 +86,11 @@ namespace FindThePath
             _grid.UpdateLayout();
         }
 
-        public MainWindow()
+        public void InitNewPath(ref DataTable dataTable)
         {
-            InitializeComponent();
-
             A.X = A.Y = B.X = B.Y = -1;
+            _data.Columns.Clear();
+            _data.Rows.Clear();
 
             for (int i = 0; i < AREA_WIDTH; i++)
             {
@@ -93,7 +101,11 @@ namespace FindThePath
             {
                 _data.Rows.Add(new string[AREA_WIDTH]);
             }
-            
+        }
+
+
+            InitNewPath(ref _data);
+
             _grid.DataContext = _data.DefaultView;
             _grid.HeadersVisibility = DataGridHeadersVisibility.None;
             _grid.UpdateLayout();
