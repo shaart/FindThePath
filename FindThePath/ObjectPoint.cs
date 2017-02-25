@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace FindThePath
 {
-    public enum ObjectType { None, StartPoint, EndPoint, Block }
-
     public struct ObjectPoint
     {
         public int X, Y;
