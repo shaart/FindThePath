@@ -60,6 +60,7 @@ namespace FindThePath
             replacingPoint.X = newPoint.X;
             replacingPoint.Y = newPoint.Y;
             replacingPoint.Obj = newPoint.Obj;
+            //e.EditingElement.Style = startPointStyle;
             Console.WriteLine("New point {0}: {1}", pointName, replacingPoint.ToString());
         }
 
@@ -74,6 +75,7 @@ namespace FindThePath
                                         new ObjectPoint(e.Row.GetIndex(), e.Column.DisplayIndex, 
                                                         ObjectType.StartPoint),
                                         "A");
+                    //e.EditingElement.Style = startPointStyle;
                     break;
                 case "b":
                 case "B":
@@ -81,14 +83,17 @@ namespace FindThePath
                                         new ObjectPoint(e.Row.GetIndex(), e.Column.DisplayIndex,
                                                         ObjectType.EndPoint),
                                         "B");
+                    //e.EditingElement.Style = endPointStyle;
                     break;
                 case "x":
                 case "X":
                     // block (barrier)
+                    //e.EditingElement.Style = blockStyle;
                     break;
                 default:
                     Console.WriteLine("New point wasn't A or B: {0}. Deleted input value", newText);
                     (e.EditingElement as TextBox).Text = "";
+                    //e.EditingElement.Style = blankStyle;
                     break;
             }
             _grid.UpdateLayout();
@@ -117,6 +122,14 @@ namespace FindThePath
 
             this.Title += String.Format(" [{0} x {1}]", AREA_WIDTH, AREA_HEIGHT);
 
+            //startPointStyle = new Style(typeof(TextBox));
+            //startPointStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Colors.LightGreen)));
+            //endPointStyle = new Style(typeof(TextBox));
+            //endPointStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Colors.DarkGreen)));
+            //blockStyle = new Style(typeof(TextBox));
+            //blockStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Colors.DarkGray)));
+            //blankStyle = new Style(typeof(TextBox));
+            //blockStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Colors.Transparent)));
 
             InitNewPath(ref _data);
 
