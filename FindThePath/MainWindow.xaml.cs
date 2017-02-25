@@ -48,6 +48,20 @@ namespace FindThePath
             InitNewPath(ref _data);
         }
 
+        private void ReplaceOldPointToNew(ref DataTable table, ref ObjectPoint replacingPoint, ObjectPoint newPoint, string pointName)
+        {
+            if (replacingPoint.X != -1 && replacingPoint.Y != -1)
+            {
+                Console.WriteLine("Old point '{1}': {0}", replacingPoint.ToString(), pointName);
+                replacingPoint.Obj = ObjectType.None;
+                table.Rows[replacingPoint.X][replacingPoint.Y] = "";
+                Console.WriteLine("Deleted old '{0}' point from grid", pointName);
+            }
+            replacingPoint.X = newPoint.X;
+            replacingPoint.Y = newPoint.Y;
+            replacingPoint.Obj = newPoint.Obj;
+            Console.WriteLine("New point {0}: {1}", pointName, replacingPoint.ToString());
+        }
 
         private void _grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -56,27 +70,21 @@ namespace FindThePath
             {
                 case "a":
                 case "A":
-                    if ((A.X != -1)&&(A.Y != -1))
-                    {
-                        Console.WriteLine("Old point 'A': {0}", A.ToString());
-                        _data.Rows[A.X][A.Y] = "";
-                        Console.WriteLine("Deleted old 'A' point from grid");
-                    }
-                    A.X = e.Row.GetIndex();
-                    A.Y = e.Column.DisplayIndex;
-                    Console.WriteLine("New point A: {0}", A.ToString());
+                    ReplaceOldPointToNew(ref _data, ref A,
+                                        new ObjectPoint(e.Row.GetIndex(), e.Column.DisplayIndex, 
+                                                        ObjectType.StartPoint),
+                                        "A");
                     break;
                 case "b":
                 case "B":
-                    if ((B.X != -1) && (B.Y != -1))
-                    {
-                        Console.WriteLine("Old point 'B': {0}", A.ToString());
-                        _data.Rows[B.X][B.Y] = "";
-                        Console.WriteLine("Deleted old 'B' point from grid");
-                    }
-                    B.X = e.Row.GetIndex();
-                    B.Y = e.Column.DisplayIndex;
-                    Console.WriteLine("New point B: {0}", B.ToString());
+                    ReplaceOldPointToNew(ref _data, ref B,
+                                        new ObjectPoint(e.Row.GetIndex(), e.Column.DisplayIndex,
+                                                        ObjectType.EndPoint),
+                                        "B");
+                    break;
+                case "x":
+                case "X":
+                    // block (barrier)
                     break;
                 default:
                     Console.WriteLine("New point wasn't A or B: {0}. Deleted input value", newText);
