@@ -1,6 +1,7 @@
-﻿using System;
 ﻿// Нахождение пути на карте
 // http://www.firststeps.ru/theory/karta.html
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,22 +19,6 @@ using System.Data;
 
 namespace FindThePath
 {
-    public struct Point2D
-    {
-        public int X, Y;
-
-        public Point2D(int x = 0, int y = 0)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0},{1}", X, Y);
-        }
-    }
-
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
@@ -41,7 +26,22 @@ namespace FindThePath
     {
         private const int AREA_WIDTH = 50, AREA_HEIGHT = 30;
         private static DataTable _data = new DataTable();
-        private Point2D A, B;
+        /// <summary>
+        /// Start path point
+        /// </summary>
+        private ObjectPoint A;
+        /// <summary>
+        /// End path point
+        /// </summary>
+        private ObjectPoint B;
+        //private Style startPointStyle, endPointStyle, blockStyle, blankStyle;
+
+        {
+        }
+
+        {
+        }
+
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
@@ -110,6 +110,12 @@ namespace FindThePath
                 _data.Rows.Add(new string[AREA_WIDTH]);
             }
         }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            this.Title += String.Format(" [{0} x {1}]", AREA_WIDTH, AREA_HEIGHT);
 
 
             InitNewPath(ref _data);
