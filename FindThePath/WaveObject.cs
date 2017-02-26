@@ -9,17 +9,17 @@ namespace FindThePath
     public struct WaveObject
     {
         public int? Value;
-        public ObjectType Obj;
+        public ObjectType Type;
 
-        public WaveObject(int? value = null, ObjectType obj = ObjectType.None)
+        public WaveObject(int? value = null, ObjectType type = ObjectType.None)
         {
             Value = value;
-            Obj = obj;
+            Type = type;
         }
 
         public override string ToString()
         {
-            return string.Format("{0}: {1}", Obj.ToString(), Value);
+            return string.Format("{0}: {1}", Type.ToString(), Value);
         }
     }
 }
