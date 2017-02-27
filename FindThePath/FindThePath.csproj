@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ObjectPoint.cs" />
+    <Compile Include="ObjectType.cs" />
+    <Compile Include="WaveAlgLee.cs" />
+    <Compile Include="WaveObject.cs" />
+    <Compile Include="ObjectTypeStrings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
