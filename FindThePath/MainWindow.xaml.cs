@@ -53,7 +53,13 @@ namespace FindThePath
 
         }
 
+        private bool IsPathPointNull(ObjectPoint point)
         {
+            if (point.X == -1 || point.Y == -1)
+            {
+                return true;
+            }
+            return false;
         }
 
 
