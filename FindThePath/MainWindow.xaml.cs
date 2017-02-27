@@ -51,6 +51,20 @@ namespace FindThePath
             return result;
         }
 
+        private void FillTableFromArray(ref DataTable table, string[,] array)
+        {
+            string[,] result = new string[table.Columns.Count, table.Rows.Count];
+
+            int arrayHeight = array.GetUpperBound(1) + 1;
+            int arrayWidth = array.Length / arrayHeight;
+
+            for (int y = 0; y < arrayHeight; y++)
+            {
+                for (int x = 0; x < arrayWidth; x++)
+                {
+                    table.Rows[y][x] = array[x, y];
+                }
+            }
         }
 
         private bool IsPathPointNull(ObjectPoint point)
