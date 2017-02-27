@@ -76,6 +76,31 @@ namespace FindThePath
             return false;
         }
 
+        private void Calculate_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsPathPointNull(A) || IsPathPointNull(B))
+            {
+                Console.WriteLine("One of points was null");
+                return;
+            }
+            // DataTable to array
+            var arr = GetStringArray(_data);
+
+            // Calculate the path
+            var res = WaveAlgLee.MakeWay(ref arr, A, B);
+            Console.WriteLine("=== === ===\nResult path:");
+            for (int i = 0; i < res.Count; i++)
+            {
+                Console.WriteLine("{0} point: {1}", i, res[i].ToString());
+                int x = res[i].X;
+                int y = res[i].Y;
+                //_data.Rows[y][x] = i+1;
+            }
+            Console.WriteLine("=== === ===");
+
+            // Array to DataTable
+            FillTableFromArray(ref _data, arr);
+        }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
