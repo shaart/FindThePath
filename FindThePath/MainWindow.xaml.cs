@@ -36,7 +36,21 @@ namespace FindThePath
         private ObjectPoint B;
         //private Style startPointStyle, endPointStyle, blockStyle, blankStyle;
 
+        private string[,] GetStringArray(DataTable table)
         {
+            string[,] result = new string[table.Columns.Count, table.Rows.Count];
+
+            for (int x = 0; x < table.Columns.Count; x++)
+            {
+                for (int y = 0; y < table.Rows.Count; y++)
+                {
+                    result[x, y] = table.Rows[y][x] == null ? "" : table.Rows[y][x].ToString();
+                }
+            }
+
+            return result;
+        }
+
         }
 
         {
