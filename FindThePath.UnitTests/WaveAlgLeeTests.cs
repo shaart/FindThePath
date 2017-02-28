@@ -370,7 +370,7 @@ namespace FindThePath.Tests
 
         [TestMethod()]
         [TestCategory("WaveAlgLee RestoreWay")]
-        public void RestoreWayTest()
+        public void RestoreWay()
         {
             var startPoint = new ObjectPoint(0, 0, ObjectType.StartPoint);
             var endPoint = new ObjectPoint(2, 2, ObjectType.EndPoint);
@@ -402,6 +402,132 @@ namespace FindThePath.Tests
                 new ObjectPoint{ X = 0, Y = 2, Obj = ObjectType.None },
                 new ObjectPoint{ X = 1, Y = 2, Obj = ObjectType.None },
                 new ObjectPoint{ X = 2, Y = 2, Obj = ObjectType.EndPoint }
+            };
+
+            List<ObjectPoint> path = WaveAlgLee.RestoreWay(area, startPoint, endPoint);
+
+            if (path.Count == 0)
+            {
+                Assert.Fail("Result path list count 0 elements");
+            }
+            for (int i = 0; i < path.Count; i++)
+            {
+                Assert.AreEqual(expectedResult[i], path[i]);
+            }
+        }
+
+
+        [TestMethod()]
+        [TestCategory("WaveAlgLee RestoreWay")]
+        public void RestoreWay_WxH_10x5()
+        {
+            //  0   1   2   3   4   5   6   7   8   9   |
+            //------------------------------------------+---
+            //  a   '   '   x   '   '   '   '   '   '   | 0
+            //  '   x   '   '   x   x   '   '   x   '   | 1
+            //  '   x   x   x   '   '   '   x   x   '   | 2
+            //  '   '   '   '   '   '   '   x   '   '   | 3
+            //  '   x   '   x   '   '   x   '   b   x   | 4
+            //------------------------------------------+---
+            //  0   1   2   3   4   5   6   7   8   9   |
+            //------------------------------------------+---
+            //  a0  1   2   x   14  13  12  13  14  15  | 0
+            //  1   x   3   4   x   x   11  12  x   16  | 1
+            //  2   x   x   x   8   9   10  x   x   17  | 2
+            //  3   4   5   6   7   8   9   x   19  18  | 3
+            //  4   x   6   x   8   9   x   '   b20 x   | 4
+            //------------------------------------------+---
+            //  0   1   2   3   4   5   6   7   8   9   |
+            WaveObject[,] area = new WaveObject[10, 5]
+                {
+                    { new WaveObject(value: 0, type: ObjectType.StartPoint),        // -- 0,0
+                        new WaveObject(value: 1, type: ObjectType.None),            //    0,1
+                        new WaveObject(value: 2, type: ObjectType.None),            //    0,2
+                        new WaveObject(value: 3, type: ObjectType.None),            //    0,3
+                        new WaveObject(value: 4, type: ObjectType.None) },          //    0,4
+                    { new WaveObject(value: 1, type: ObjectType.StartPoint),        // -- 1,0
+                        new WaveObject(value: null, type: ObjectType.Block),        //    1,1
+                        new WaveObject(value: null, type: ObjectType.Block),        //    1,2
+                        new WaveObject(value: 4, type: ObjectType.None),            //    1,3
+                        new WaveObject(value: null, type: ObjectType.Block) },      //    2,4
+                    { new WaveObject(value: 2, type: ObjectType.None),              // -- 2,0
+                        new WaveObject(value: 3, type: ObjectType.None),            //    2,1
+                        new WaveObject(value: null, type: ObjectType.Block),        //    2,2
+                        new WaveObject(value: 5, type: ObjectType.None),            //    2,3
+                        new WaveObject(value: 6, type: ObjectType.None) },          //    2,4
+                    { new WaveObject(value: null, type: ObjectType.Block),          // -- 3,0
+                        new WaveObject(value: 4, type: ObjectType.None),            //    3,1
+                        new WaveObject(value: null, type: ObjectType.Block),        //    3,2
+                        new WaveObject(value: 6, type: ObjectType.None),            //    3,3
+                        new WaveObject(value: null, type: ObjectType.Block) },      //    3,4
+                    { new WaveObject(value: 14, type: ObjectType.None),             // -- 4,0
+                        new WaveObject(value: null, type: ObjectType.Block),        //    4,1
+                        new WaveObject(value: 8, type: ObjectType.None),            //    4,2
+                        new WaveObject(value: 7, type: ObjectType.None),            //    4,3
+                        new WaveObject(value: 8, type: ObjectType.None) },          //    4,4
+                    { new WaveObject(value: 13, type: ObjectType.None),             // -- 5,0
+                        new WaveObject(value: null, type: ObjectType.Block),        //    5,1
+                        new WaveObject(value: 9, type: ObjectType.None),            //    5,2
+                        new WaveObject(value: 8, type: ObjectType.None),            //    5,3
+                        new WaveObject(value: 9, type: ObjectType.None) },          //    5,4
+                    { new WaveObject(value: 12, type: ObjectType.None),             // -- 6,0
+                        new WaveObject(value: 11, type: ObjectType.None),           //    6,1
+                        new WaveObject(value: 10, type: ObjectType.None),           //    6,2
+                        new WaveObject(value: 9, type: ObjectType.None),            //    6,3
+                        new WaveObject(value: null, type: ObjectType.Block) },      //    6,4
+                    { new WaveObject(value: 13, type: ObjectType.None),             // -- 7,0
+                        new WaveObject(value: 12, type: ObjectType.None),           //    7,1
+                        new WaveObject(value: null, type: ObjectType.Block),        //    7,2
+                        new WaveObject(value: null, type: ObjectType.Block),        //    7,3
+                        new WaveObject(value: null, type: ObjectType.None) },       //    7,4
+                    { new WaveObject(value: 14, type: ObjectType.None),             // -- 8,0
+                        new WaveObject(value: null, type: ObjectType.Block),        //    8,1
+                        new WaveObject(value: null, type: ObjectType.Block),        //    8,2
+                        new WaveObject(value: 19, type: ObjectType.None),           //    8,3
+                        new WaveObject(value: 20, type: ObjectType.EndPoint) },     //    8,4
+                    { new WaveObject(value: 15, type: ObjectType.None),             // -- 9,0
+                        new WaveObject(value: 16, type: ObjectType.None),           //    9,1
+                        new WaveObject(value: 17, type: ObjectType.None),           //    9,2
+                        new WaveObject(value: 18, type: ObjectType.None),           //    9,3
+                        new WaveObject(value: null, type: ObjectType.Block) }       //    9,4
+                };
+            //  0   1   2   3   4   5   6   7   8   9   |
+            //------------------------------------------+---
+            //  a0  1   2   x   14  13  12  13  14  15  | 0
+            //  1   x   3   4   x   x   11  12  x   16  | 1
+            //  2   x   x   x   8   9   10  x   x   17  | 2
+            //  3   4   5   6   7   8   9   x   19  18  | 3
+            //  4   x   6   x   8   9   x   '   b20 x   | 4
+            //------------------------------------------+---
+            //  0   1   2   3   4   5   6   7   8   9   |
+
+            var startPoint = new ObjectPoint(0, 0, ObjectType.StartPoint);
+            var endPoint = new ObjectPoint(8, 4, ObjectType.EndPoint);
+
+            // x,y
+            // 1,0 -> 2,0 -> 3,0 -> 3,1 -> 3,2 -> 3,3 -> 3,4 -> 3,5 
+            List<ObjectPoint> expectedResult = new List<ObjectPoint>()
+            {
+                new ObjectPoint{ X = 0, Y = 1, Obj = ObjectType.None },
+                new ObjectPoint{ X = 0, Y = 2, Obj = ObjectType.None },
+                new ObjectPoint{ X = 0, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 1, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 2, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 3, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 4, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 5, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 6, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 6, Y = 2, Obj = ObjectType.None },
+                new ObjectPoint{ X = 6, Y = 1, Obj = ObjectType.None },
+                new ObjectPoint{ X = 7, Y = 1, Obj = ObjectType.None },
+                new ObjectPoint{ X = 7, Y = 0, Obj = ObjectType.None },
+                new ObjectPoint{ X = 8, Y = 0, Obj = ObjectType.None },
+                new ObjectPoint{ X = 9, Y = 0, Obj = ObjectType.None },
+                new ObjectPoint{ X = 9, Y = 1, Obj = ObjectType.None },
+                new ObjectPoint{ X = 9, Y = 2, Obj = ObjectType.None },
+                new ObjectPoint{ X = 9, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 8, Y = 3, Obj = ObjectType.None },
+                new ObjectPoint{ X = 8, Y = 4, Obj = ObjectType.EndPoint }
             };
 
             List<ObjectPoint> path = WaveAlgLee.RestoreWay(area, startPoint, endPoint);
