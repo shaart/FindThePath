@@ -23,15 +23,15 @@ namespace FindThePath
         public static WaveObject[,] ConvertToWaveObjectsArray(string[,] array)
         {
             int arrayHeight = array.GetUpperBound(1) + 1;
-            if (arrayHeight > 0 && array.Length > 0)
+            int arrayWidth = array.Length / arrayHeight;
+            if (array.Length > 0)
             {
-                int arrayWidth = array.Length / arrayHeight;
                 var waveObjects = new WaveObject[arrayWidth, arrayHeight];
-                for (int y = 0; y < arrayHeight; y++)
+                for (int j = 0; j < arrayHeight; j++)
                 {
-                    for (int x = 0; x < arrayWidth; x++)
+                    for (int i = 0; i < arrayWidth; i++)
                     {
-                        waveObjects[x, y] = MakeFromString(array[x, y]);
+                        waveObjects[i, j] = MakeFromString(array[i, j]);
                     }
                 }
                 return waveObjects;
@@ -68,7 +68,7 @@ namespace FindThePath
             {
                 for (int x = 0; x < areaWidth; x++)
                 {
-                    area[x, y] = waveObjects[x, y].Value == null ? "" : waveObjects[x, y].Value.ToString();
+                    area[x, y] = waveObjects[x, y].Value == null? "" : waveObjects[x, y].Value.ToString();
                     if (waveObjects[x, y].Type == ObjectType.StartPoint)
                     {
                         area[x, y] = area[x, y].Insert(0, "a");
@@ -180,12 +180,9 @@ namespace FindThePath
                                     canPropagateWave = true;
                                     area[envX, envY].Value = step + 1;
                                 }
-                                if (area[endPoint.X, endPoint.Y].Value != null) { break; }
                             }
                         }
-                        if (area[endPoint.X, endPoint.Y].Value != null) { break; }
                     }
-                    if (area[endPoint.X, endPoint.Y].Value != null) { break; }
                 }
                 step++;
                 #region If TRACE - out
