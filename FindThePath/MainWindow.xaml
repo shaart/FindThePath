@@ -31,20 +31,42 @@
             <Grid x:Name="panel" Height="40" Background="#FF536381" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="90"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Clear" Click="Clear_Click"
                         Height="{Binding ActualHeight, ElementName=panel, Mode=OneWay}"/>
-                <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Calculate" Click="Calculate_Click"
+                <Label Grid.Column="1" Foreground="{StaticResource ForegroundBrush}" 
+                       VerticalAlignment="Top">
+                    Wall = X, x
+                </Label>
+                <Label Grid.Column="1" Foreground="{StaticResource ForegroundBrush}" 
+                       VerticalAlignment="Bottom">
+                    Start = A, a | End = B, b
+                </Label>
+                <Label x:Name="coordX" Grid.Column="2" Foreground="{StaticResource ForegroundBrush}" 
+                       VerticalAlignment="Top" HorizontalAlignment="Center">
+                    X:
+                </Label>
+                <Label x:Name="coordY" Grid.Column="2" Foreground="{StaticResource ForegroundBrush}" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    Y:
+                </Label>
+                <Button Grid.Column="3" HorizontalAlignment="Stretch" Content="Calculate" Click="Calculate_Click"
                         Height="{Binding ActualHeight, ElementName=panel, Mode=OneWay}"/>
             </Grid>
         </Grid>
         <ScrollViewer Grid.Column="0" Grid.Row="1" 
                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <DataGrid x:Name="_grid" AutoGenerateColumns="True" ItemsSource="{Binding}" HeadersVisibility="None" CellEditEnding="_grid_CellEditEnding">
+            <DataGrid x:Name="_grid" AutoGenerateColumns="True" ItemsSource="{Binding}" 
+                      HeadersVisibility="All" CellEditEnding="_grid_CellEditEnding" CanUserSortColumns="False" 
+                      CanUserReorderColumns="False" 
+                      HorizontalGridLinesBrush="#FF1AAA1A" VerticalGridLinesBrush="#FFEE5600" 
+                      SelectionMode="Single" SelectionUnit="Cell" CurrentCellChanged="_grid_CurrentCellChanged">
                 <DataGrid.CellStyle>
                     <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="Background" Value="{StaticResource ResourceKey=CellBackgroundBrush}"/>
+                        <Setter Property="Background" Value="{StaticResource ResourceKey=CellBackgroundBrush}"/>                      
                     </Style>
                 </DataGrid.CellStyle>
             </DataGrid>
